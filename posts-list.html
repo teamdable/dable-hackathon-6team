@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모든 공연 - PerformancePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .posts-list-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .posts-list-header {
+            margin-bottom: 40px;
+        }
+
+        .posts-list-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .posts-list-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .post-card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .post-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-card-content {
+            padding: 20px;
+        }
+
+        .post-card-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #ff4444;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .post-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        .post-card-excerpt {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .post-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .post-card-date {
+            font-weight: 500;
+        }
+
+        .post-card-venue {
+            font-style: italic;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .filter-btn.active {
+            background: #ff4444;
+            color: white;
+            border-color: #ff4444;
+        }
+
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
+                        <span class="logo-icon">🎭</span>
+                        <span class="logo-text">PerformancePulse</span>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">홈</a>
+                    <a href="posts-list.html" class="nav-link">모든 공연</a>
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="posts-list-container">
+            <div class="posts-list-header">
+                <h1 class="posts-list-title">모든 공연</h1>
+                <p class="posts-list-subtitle">최신 공연 정보를 확인하세요</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <button class="filter-btn active" data-category="all">전체</button>
+                <button class="filter-btn" data-category="뮤지컬">뮤지컬</button>
+                <button class="filter-btn" data-category="연극">연극</button>
+                <button class="filter-btn" data-category="클래식">클래식</button>
+            </div>
+
+            <!-- Posts Grid -->
+            <div class="posts-grid" id="posts-grid">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+
+            <div class="no-posts" id="no-posts" style="display: none;">
+                해당 카테고리의 공연이 없습니다.
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">PerformancePulse</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">About Us</a>
+                        <a href="#" class="footer-link">Our Story</a>
+                        <a href="#" class="footer-link">Careers</a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">Contact Us</a>
+                        <a href="#" class="footer-link">Help Center</a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Legal</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">Privacy Policy</a>
+                        <a href="#" class="footer-link">Terms of Service</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section footer-social">
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                        <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                        <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 포스트 목록 페이지 JavaScript
+        class PostsList {
+            constructor() {
+                this.posts = [];
+                this.currentCategory = 'all';
+                this.init();
+            }
+
+            async init() {
+                await this.loadPosts();
+                this.renderPosts();
+                this.setupFilterButtons();
+            }
+
+            // Markdown 파일에서 frontmatter 추출
+            parseFrontmatter(content) {
+                const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+                const match = content.match(frontmatterRegex);
+                
+                if (!match) return null;
+                
+                const frontmatter = {};
+                const lines = match[1].split('\n');
+                
+                lines.forEach(line => {
+                    const colonIndex = line.indexOf(':');
+                    if (colonIndex === -1) return;
+                    
+                    const key = line.substring(0, colonIndex).trim();
+                    let value = line.substring(colonIndex + 1).trim();
+                    
+                    // 따옴표 제거
+                    value = value.replace(/^["']|["']$/g, '');
+                    
+                    // 배열 처리
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        value = JSON.parse(value);
+                    }
+                    
+                    frontmatter[key] = value;
+                });
+                
+                return frontmatter;
+            }
+
+            // 포스트 데이터 로드
+            async loadPosts() {
+                try {
+                    const filesResponse = await fetch('data/files.json');
+                    const filesData = await filesResponse.json();
+                    const postFiles = filesData.posts || [];
+                    
+                    this.posts = await Promise.all(
+                        postFiles.map(async (filename) => {
+                            try {
+                                const response = await fetch(`posts/${filename}`);
+                                const content = await response.text();
+                                const frontmatter = this.parseFrontmatter(content);
+                                
+                                if (!frontmatter) return null;
+                                
+                                const id = filename.replace('.md', '');
+                                
+                                return {
+                                    id,
+                                    title: frontmatter.title,
+                                    date: frontmatter.date,
+                                    category: frontmatter.category,
+                                    image: frontmatter.image,
+                                    venue: frontmatter.venue,
+                                    period: frontmatter.period,
+                                    excerpt: frontmatter.excerpt,
+                                    tags: frontmatter.tags
+                                };
+                            } catch (error) {
+                                console.error(`Error loading ${filename}:`, error);
+                                return null;
+                            }
+                        })
+                    );
+                    
+                    this.posts = this.posts
+                        .filter(post => post !== null)
+                        .sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                } catch (error) {
+                    console.error('포스트 데이터를 불러오는 중 오류가 발생했습니다:', error);
+                    this.posts = [];
+                }
+            }
+
+            // 포스트 렌더링
+            renderPosts() {
+                const postsGrid = document.getElementById('posts-grid');
+                const noPosts = document.getElementById('no-posts');
+                
+                if (!postsGrid) return;
+
+                // 카테고리 필터링
+                const filteredPosts = this.currentCategory === 'all' 
+                    ? this.posts 
+                    : this.posts.filter(post => post.category === this.currentCategory);
+
+                if (filteredPosts.length === 0) {
+                    postsGrid.style.display = 'none';
+                    noPosts.style.display = 'block';
+                    return;
+                }
+
+                postsGrid.style.display = 'grid';
+                noPosts.style.display = 'none';
+
+                postsGrid.innerHTML = filteredPosts.map(post => `
+                    <article class="post-card" data-post-id="${post.id}">
+                        <div class="post-card-image">
+                            <img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.src='images/placeholder.jpg'">
+                        </div>
+                        <div class="post-card-content">
+                            <span class="post-card-category">${post.category}</span>
+                            <h3 class="post-card-title">${post.title}</h3>
+                            <p class="post-card-excerpt">${post.excerpt}</p>
+                            <div class="post-card-meta">
+                                <span class="post-card-date">${this.formatDate(post.date)}</span>
+                                <span class="post-card-venue">${post.venue}</span>
+                            </div>
+                        </div>
+                    </article>
+                `).join('');
+
+                // 클릭 이벤트 추가
+                postsGrid.querySelectorAll('.post-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const postId = card.dataset.postId;
+                        window.location.href = `post.html?id=${postId}`;
+                    });
+                });
+            }
+
+            // 필터 버튼 설정
+            setupFilterButtons() {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 활성 버튼 변경
+                        filterButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        // 카테고리 변경 및 재렌더링
+                        this.currentCategory = btn.dataset.category;
+                        this.renderPosts();
+                    });
+                });
+            }
+
+            // 날짜 포맷팅
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('ko-KR', options);
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            const postsList = new PostsList();
+        });
+    </script>
+</body>
+</html>
+
