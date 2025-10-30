@@ -143,17 +143,25 @@ class PostDetail {
 
     // 포스트 메타데이터 렌더링
     renderPost() {
-        const { title, date, category, image, venue, period, excerpt, tags } = this.postData;
+        const { title, date, category, image, venue, period, excerpt, tags, type } = this.postData;
 
         // 제목과 기본 정보
         document.getElementById('post-title').textContent = title;
         document.getElementById('post-excerpt').textContent = excerpt;
         document.getElementById('post-category').textContent = category;
         document.getElementById('post-date').textContent = this.formatDate(date);
-        
-        // 공연 정보
-        if (venue) document.getElementById('post-venue').textContent = venue;
-        if (period) document.getElementById('post-period').textContent = period;
+
+        // 공연 정보 (컬렉션이 아닐 때만 표시)
+        const performanceInfo = document.querySelector('.performance-info');
+        if (type === 'collection') {
+            // 컬렉션일 경우 공연 정보 숨기기
+            if (performanceInfo) performanceInfo.style.display = 'none';
+        } else {
+            // 일반 포스트일 경우 공연 정보 표시
+            if (performanceInfo) performanceInfo.style.display = 'flex';
+            if (venue) document.getElementById('post-venue').textContent = venue;
+            if (period) document.getElementById('post-period').textContent = period;
+        }
 
         // 이미지
         const imageElement = document.getElementById('post-image');

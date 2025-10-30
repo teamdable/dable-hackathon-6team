@@ -241,8 +241,8 @@ class PerformanceBlog {
         const featuredGrid = document.querySelector('.featured-grid');
         if (!featuredGrid) return;
 
-        // collections를 최신순으로 정렬하여 상위 3개 표시
-        const featuredCollections = this.collections.slice(0, 3);
+        // 모든 collections를 최신순으로 표시
+        const featuredCollections = this.collections;
         
         featuredGrid.innerHTML = featuredCollections.map((collection, index) => {
             const isLarge = index === 0;
