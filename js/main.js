@@ -10,47 +10,139 @@ class PerformanceBlog {
 
     async init() {
         await this.loadPosts();
+        await this.loadCollections();
         this.renderFeaturedPosts();
         this.renderArticles();
         this.setupEventListeners();
     }
 
+    // Markdown 파일에서 frontmatter 추출
+    parseFrontmatter(content) {
+        const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+        const match = content.match(frontmatterRegex);
+        
+        if (!match) return null;
+        
+        const frontmatter = {};
+        const lines = match[1].split('\n');
+        
+        lines.forEach(line => {
+            const colonIndex = line.indexOf(':');
+            if (colonIndex === -1) return;
+            
+            const key = line.substring(0, colonIndex).trim();
+            let value = line.substring(colonIndex + 1).trim();
+            
+            // 따옴표 제거
+            value = value.replace(/^["']|["']$/g, '');
+            
+            // 배열 처리
+            if (value.startsWith('[') && value.endsWith(']')) {
+                value = JSON.parse(value);
+            }
+            
+            frontmatter[key] = value;
+        });
+        
+        return frontmatter;
+    }
+
     // 포스트 데이터 로드
     async loadPosts() {
         try {
-            const response = await fetch('data/posts.json');
-            const data = await response.json();
-            this.posts = data.posts || [];
-            this.collections = data.collections || [];
+            // 파일 목록 가져오기
+            const filesResponse = await fetch('data/files.json');
+            const filesData = await filesResponse.json();
+            const postFiles = filesData.posts || [];
+            
+            this.posts = await Promise.all(
+                postFiles.map(async (filename) => {
+                    try {
+                        const response = await fetch(`posts/${filename}`);
+                        const content = await response.text();
+                        const frontmatter = this.parseFrontmatter(content);
+                        
+                        if (!frontmatter) return null;
+                        
+                        // 파일명에서 ID 생성
+                        const id = filename.replace('.md', '');
+                        
+                        return {
+                            id,
+                            title: frontmatter.title,
+                            date: frontmatter.date,
+                            category: frontmatter.category,
+                            image: frontmatter.image,
+                            venue: frontmatter.venue,
+                            period: frontmatter.period,
+                            excerpt: frontmatter.excerpt,
+                            tags: frontmatter.tags,
+                            content: `posts/${filename}`
+                        };
+                    } catch (error) {
+                        console.error(`Error loading ${filename}:`, error);
+                        return null;
+                    }
+                })
+            );
+            
+            // null 값 제거 및 날짜순 정렬
+            this.posts = this.posts
+                .filter(post => post !== null)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            
         } catch (error) {
             console.log('포스트 데이터를 불러오는 중 오류가 발생했습니다:', error);
-            // 기본 데이터 사용
-            this.loadDefaultData();
+            this.posts = [];
         }
     }
 
-    // 기본 데이터 로드 (JSON 파일이 없을 경우)
-    loadDefaultData() {
-        this.posts = [
-            {
-                id: 'post-1',
-                title: '연말 추천 공연',
-                category: '뮤지컬',
-                date: '2025-10-01',
-                image: 'images/posts/featured-1.jpg',
-                excerpt: '올해를 마무리하며 꼭 봐야 할 최고의 공연들을 소개합니다.',
-                featured: true
-            },
-            {
-                id: 'post-2',
-                title: '대학로 데이트 추천 공연',
-                category: '연극',
-                date: '2025-10-05',
-                image: 'images/posts/featured-2.jpg',
-                excerpt: '연인과 함께 보기 좋은 대학로 공연 TOP 5를 확인해보세요.',
-                featured: true
-            }
-        ];
+    // 컬렉션 데이터 로드
+    async loadCollections() {
+        try {
+            // 파일 목록 가져오기
+            const filesResponse = await fetch('data/files.json');
+            const filesData = await filesResponse.json();
+            const collectionFiles = filesData.collections || [];
+            
+            this.collections = await Promise.all(
+                collectionFiles.map(async (filename) => {
+                    try {
+                        const response = await fetch(`collections/${filename}`);
+                        const content = await response.text();
+                        const frontmatter = this.parseFrontmatter(content);
+                        
+                        if (!frontmatter) return null;
+                        
+                        // 파일명에서 ID 생성
+                        const id = filename.replace('.md', '');
+                        
+                        return {
+                            id,
+                            title: frontmatter.title,
+                            date: frontmatter.date,
+                            type: frontmatter.type,
+                            image: frontmatter.image,
+                            excerpt: frontmatter.excerpt,
+                            related_posts: frontmatter.related_posts,
+                            content: `collections/${filename}`
+                        };
+                    } catch (error) {
+                        console.error(`Error loading ${filename}:`, error);
+                        return null;
+                    }
+                })
+            );
+            
+            // null 값 제거 및 날짜순 정렬
+            this.collections = this.collections
+                .filter(collection => collection !== null)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+        } catch (error) {
+            console.log('컬렉션 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            this.collections = [];
+        }
     }
 
     // 이벤트 리스너 설정
@@ -144,26 +236,27 @@ class PerformanceBlog {
         container.appendChild(postElement);
     }
 
-    // Featured 포스트 렌더링
+    // Featured 컬렉션 렌더링
     renderFeaturedPosts() {
         const featuredGrid = document.querySelector('.featured-grid');
         if (!featuredGrid) return;
 
-        const featuredPosts = this.posts.filter(post => post.featured).slice(0, 3);
+        // collections를 최신순으로 정렬하여 상위 3개 표시
+        const featuredCollections = this.collections.slice(0, 3);
         
-        featuredGrid.innerHTML = featuredPosts.map((post, index) => {
+        featuredGrid.innerHTML = featuredCollections.map((collection, index) => {
             const isLarge = index === 0;
             return `
-                <article class="featured-post ${isLarge ? 'featured-post-large' : ''}" data-post-id="${post.id}">
+                <article class="featured-post ${isLarge ? 'featured-post-large' : ''}" data-post-id="${collection.id}">
                     <div class="post-image">
-                        <img src="${post.image || 'images/posts/default.jpg'}" alt="${post.title}" loading="lazy">
+                        <img src="${collection.image || 'images/collections/default.jpg'}" alt="${collection.title}" loading="lazy">
                     </div>
                     <div class="post-content">
-                        <span class="post-category">${post.category}</span>
-                        <h2 class="post-title">${post.title}</h2>
-                        <p class="post-excerpt">${post.excerpt}</p>
+                        <span class="post-category">컬렉션</span>
+                        <h2 class="post-title">${collection.title}</h2>
+                        <p class="post-excerpt">${collection.excerpt}</p>
                         <div class="post-meta">
-                            <span class="post-date">${this.formatDate(post.date)}</span>
+                            <span class="post-date">${this.formatDate(collection.date)}</span>
                         </div>
                     </div>
                 </article>

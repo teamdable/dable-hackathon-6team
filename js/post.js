@@ -25,12 +25,114 @@ class PostDetail {
         return params.get('id');
     }
 
+    // Markdown 파일에서 frontmatter 추출
+    parseFrontmatter(content) {
+        const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+        const match = content.match(frontmatterRegex);
+        
+        if (!match) return null;
+        
+        const frontmatter = {};
+        const lines = match[1].split('\n');
+        
+        lines.forEach(line => {
+            const colonIndex = line.indexOf(':');
+            if (colonIndex === -1) return;
+            
+            const key = line.substring(0, colonIndex).trim();
+            let value = line.substring(colonIndex + 1).trim();
+            
+            // 따옴표 제거
+            value = value.replace(/^["']|["']$/g, '');
+            
+            // 배열 처리
+            if (value.startsWith('[') && value.endsWith(']')) {
+                value = JSON.parse(value);
+            }
+            
+            frontmatter[key] = value;
+        });
+        
+        return frontmatter;
+    }
+
     // 포스트 데이터 로드
     async loadPostData() {
         try {
-            const response = await fetch('data/posts.json');
-            const data = await response.json();
-            this.allPosts = data.posts || [];
+            // 파일 목록 가져오기
+            const filesResponse = await fetch('data/files.json');
+            const filesData = await filesResponse.json();
+            
+            // posts와 collections 모두 로드
+            const postFiles = filesData.posts || [];
+            const collectionFiles = filesData.collections || [];
+            
+            // posts 로드
+            const posts = await Promise.all(
+                postFiles.map(async (filename) => {
+                    try {
+                        const response = await fetch(`posts/${filename}`);
+                        const content = await response.text();
+                        const frontmatter = this.parseFrontmatter(content);
+                        
+                        if (!frontmatter) return null;
+                        
+                        const id = filename.replace('.md', '');
+                        
+                        return {
+                            id,
+                            title: frontmatter.title,
+                            date: frontmatter.date,
+                            category: frontmatter.category,
+                            image: frontmatter.image,
+                            venue: frontmatter.venue,
+                            period: frontmatter.period,
+                            excerpt: frontmatter.excerpt,
+                            tags: frontmatter.tags,
+                            content: `posts/${filename}`,
+                            type: 'post'
+                        };
+                    } catch (error) {
+                        console.error(`Error loading ${filename}:`, error);
+                        return null;
+                    }
+                })
+            );
+            
+            // collections 로드
+            const collections = await Promise.all(
+                collectionFiles.map(async (filename) => {
+                    try {
+                        const response = await fetch(`collections/${filename}`);
+                        const content = await response.text();
+                        const frontmatter = this.parseFrontmatter(content);
+                        
+                        if (!frontmatter) return null;
+                        
+                        const id = filename.replace('.md', '');
+                        
+                        return {
+                            id,
+                            title: frontmatter.title,
+                            date: frontmatter.date,
+                            type: 'collection',
+                            image: frontmatter.image,
+                            excerpt: frontmatter.excerpt,
+                            related_posts: frontmatter.related_posts,
+                            content: `collections/${filename}`,
+                            category: '컬렉션'
+                        };
+                    } catch (error) {
+                        console.error(`Error loading ${filename}:`, error);
+                        return null;
+                    }
+                })
+            );
+            
+            // 모든 포스트 합치기
+            this.allPosts = [...posts, ...collections]
+                .filter(post => post !== null)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
             
             // 현재 포스트 찾기
             this.postData = this.allPosts.find(post => post.id === this.postId);

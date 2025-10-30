@@ -14,9 +14,9 @@ PerformancePulse는 GitHub Pages를 이용한 정적 웹사이트로, 다양한 
 
 ### ✨ 특징
 
-- 🎨 **사진과 유사한 모던한 UI** - 블로그 스타일의 세련된 디자인
+- 🎨 **모던한 UI** - 블로그 스타일의 세련된 디자인
 - 📝 **마크다운 기반** - 쉽고 빠른 콘텐츠 작성
-- 🔄 **동적 로딩** - JSON 데이터 기반 자동 렌더링
+- 🔄 **자동 파일 목록 생성** - 메타데이터를 Markdown frontmatter에서 추출
 - 📱 **완벽한 반응형** - 모든 기기에서 최적화된 경험
 - 🚀 **GitHub Pages** - 무료 호스팅 및 자동 배포
 - 🎭 **공연 특화** - 공연 정보에 최적화된 구조
@@ -48,8 +48,10 @@ PerformancePulse는 GitHub Pages를 이용한 정적 웹사이트로, 다양한 
 ├── images/                 # 이미지 파일
 │   ├── posts/             # 공연 포스터 등
 │   └── collections/       # 취합글 이미지
-└── data/                   # 메타데이터
-    └── posts.json         # 포스트 메타정보
+├── data/                   # 데이터
+│   └── files.json         # 파일 목록 (자동 생성)
+└── scripts/                # 자동화 스크립트
+    └── generate-files-list.js
 ```
 
 ## 새 공연 추가하기
@@ -79,25 +81,13 @@ tags: ["태그1", "태그2"]
 
 공연 포스터 이미지를 `images/posts/` 폴더에 추가합니다.
 
-### 3. posts.json 업데이트
+### 3. 파일 목록 자동 생성
 
-`data/posts.json` 파일에 새 포스트 정보를 추가합니다:
-
-```json
-{
-  "id": "post-xxx",
-  "title": "공연 제목",
-  "date": "YYYY-MM-DD",
-  "category": "뮤지컬",
-  "image": "/images/posts/파일명.jpg",
-  "venue": "공연장",
-  "period": "공연 기간",
-  "excerpt": "짧은 소개",
-  "tags": ["태그1", "태그2"],
-  "featured": false,
-  "content": "posts/YYYY-MM-DD-파일명.md"
-}
+```bash
+npm run generate
 ```
+
+이 명령어가 `posts/`와 `collections/` 폴더를 스캔하여 `data/files.json`을 자동으로 생성합니다!
 
 ### 4. Git에 커밋 및 푸시
 
@@ -107,9 +97,24 @@ git commit -m "Add new post: 공연 제목"
 git push origin main
 ```
 
-## 취합글 작성하기
+## 취합글(컬렉션) 작성하기
 
-`collections/` 폴더에 마크다운 파일을 생성하고, `data/posts.json`의 `collections` 배열에 정보를 추가합니다.
+`collections/` 폴더에 마크다운 파일을 생성하고, `npm run generate`로 파일 목록을 업데이트합니다.
+
+```markdown
+---
+title: "컬렉션 제목"
+date: YYYY-MM-DD
+type: "collection"
+image: "/images/collections/파일명.jpg"
+excerpt: "짧은 소개"
+related_posts: ["포스트-id-1", "포스트-id-2"]
+---
+
+# 컬렉션 제목
+
+여러 공연을 모아서 소개하는 내용...
+```
 
 ## GitHub Pages 배포
 

@@ -1,0 +1,19 @@
+{
+  "name": "performancepulse",
+  "version": "1.0.0",
+  "description": "공연 추천 블로그 - PerformancePulse",
+  "scripts": {
+    "generate": "node scripts/generate-files-list.js",
+    "build": "npm run generate",
+    "dev": "npm run generate && echo '✅ 개발 준비 완료! index.html을 브라우저에서 열어주세요.'"
+  },
+  "keywords": [
+    "blog",
+    "performance",
+    "theater",
+    "musical"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
