@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공연 상세 - PerformancePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/post.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-icon">🎭</span>
+                        <span class="logo-text">PerformancePulse</span>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="#" class="nav-link">Subscribe</a>
+                    <a href="#" class="nav-link">Sign In</a>
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="post-main">
+        <article class="post-article">
+            <div class="container-narrow">
+                <!-- Post Header -->
+                <header class="post-header">
+                    <div class="post-meta-top">
+                        <span class="post-category" id="post-category">뮤지컬</span>
+                        <span class="post-date" id="post-date">October 28, 2025</span>
+                    </div>
+                    <h1 class="post-title-large" id="post-title">공연 제목</h1>
+                    <p class="post-excerpt-large" id="post-excerpt">공연 소개 요약</p>
+                    
+                    <!-- Performance Info -->
+                    <div class="performance-info">
+                        <div class="info-item">
+                            <span class="info-label">📍 공연장</span>
+                            <span class="info-value" id="post-venue">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">📅 공연 기간</span>
+                            <span class="info-value" id="post-period">-</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Featured Image -->
+                <div class="post-featured-image">
+                    <img id="post-image" src="" alt="공연 이미지">
+                </div>
+
+                <!-- Post Content -->
+                <div class="post-content-wrapper">
+                    <div id="post-content" class="markdown-content">
+                        <!-- 마크다운 컨텐츠가 여기에 렌더링됩니다 -->
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="post-tags" id="post-tags">
+                    <!-- 태그가 동적으로 추가됩니다 -->
+                </div>
+
+                <!-- Share Buttons -->
+                <div class="post-share">
+                    <h3>공유하기</h3>
+                    <div class="share-buttons">
+                        <button class="share-btn" onclick="shareToFacebook()">📘 Facebook</button>
+                        <button class="share-btn" onclick="shareToTwitter()">🐦 Twitter</button>
+                        <button class="share-btn" onclick="copyLink()">🔗 링크 복사</button>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                <section class="related-posts">
+                    <h2>관련 공연</h2>
+                    <div class="related-posts-grid" id="related-posts">
+                        <!-- 관련 포스트가 동적으로 추가됩니다 -->
+                    </div>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">PerformancePulse</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">About Us</a>
+                        <a href="#" class="footer-link">Our Story</a>
+                        <a href="#" class="footer-link">Careers</a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">Contact Us</a>
+                        <a href="#" class="footer-link">Help Center</a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Legal</h3>
+                    <nav class="footer-nav">
+                        <a href="#" class="footer-link">Privacy Policy</a>
+                        <a href="#" class="footer-link">Terms of Service</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section footer-social">
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                        <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                        <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/post.js"></script>
+</body>
+</html>
+

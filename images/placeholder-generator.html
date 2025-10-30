@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플레이스홀더 이미지 생성기</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #FF4757;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2F3542;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #FF4757;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #FF6B7A;
+        }
+        #preview {
+            margin-top: 30px;
+            text-align: center;
+        }
+        #preview canvas {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .download-btn {
+            margin-top: 15px;
+            background-color: #2F3542;
+        }
+        .download-btn:hover {
+            background-color: #57606f;
+        }
+        .info {
+            background-color: #f1f2f6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 플레이스홀더 이미지 생성기</h1>
+        <p class="subtitle">공연 블로그용 임시 이미지를 생성합니다</p>
+
+        <div class="form-group">
+            <label for="title">공연 제목</label>
+            <input type="text" id="title" placeholder="예: 오페라의 유령" value="공연 제목">
+        </div>
+
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select id="category">
+                <option value="뮤지컬">뮤지컬</option>
+                <option value="연극">연극</option>
+                <option value="콘서트">콘서트</option>
+                <option value="무용">무용</option>
+                <option value="기타">기타</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="width">가로 크기 (px)</label>
+            <input type="number" id="width" value="1200" min="400" max="2400">
+        </div>
+
+        <div class="form-group">
+            <label for="height">세로 크기 (px)</label>
+            <input type="number" id="height" value="800" min="300" max="1600">
+        </div>
+
+        <button onclick="generateImage()">이미지 생성</button>
+
+        <div id="preview"></div>
+
+        <div class="info">
+            💡 <strong>사용 방법:</strong><br>
+            1. 공연 정보를 입력하고 '이미지 생성' 버튼을 클릭하세요<br>
+            2. 생성된 이미지를 다운로드하세요<br>
+            3. 실제 공연 포스터로 교체하는 것을 권장합니다
+        </div>
+    </div>
+
+    <script>
+        function generateImage() {
+            const title = document.getElementById('title').value;
+            const category = document.getElementById('category').value;
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+
+            // Canvas 생성
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // 그라디언트 배경
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            const colors = {
+                '뮤지컬': ['#FF4757', '#FF6B7A'],
+                '연극': ['#5F27CD', '#8854D0'],
+                '콘서트': ['#00D2D3', '#54A0FF'],
+                '무용': ['#FF6348', '#FF9F43'],
+                '기타': ['#2F3542', '#57606F']
+            };
+            const [color1, color2] = colors[category] || colors['기타'];
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(1, color2);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // 반투명 오버레이
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+
+            // 카테고리 텍스트
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = `bold ${width * 0.04}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(category, width / 2, height * 0.4);
+
+            // 제목 텍스트
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${width * 0.06}px Arial`;
+            ctx.textAlign = 'center';
+            
+            // 긴 제목 처리
+            const maxWidth = width * 0.8;
+            const words = title.split(' ');
+            let line = '';
+            let y = height * 0.5;
+            
+            for (let word of words) {
+                const testLine = line + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && line !== '') {
+                    ctx.fillText(line, width / 2, y);
+                    line = word + ' ';
+                    y += width * 0.07;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, width / 2, y);
+
+            // 아이콘
+            ctx.font = `${width * 0.08}px Arial`;
+            ctx.fillText('🎭', width / 2, height * 0.7);
+
+            // 미리보기 표시
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            preview.appendChild(canvas);
+
+            // 다운로드 버튼
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.textContent = '이미지 다운로드';
+            downloadBtn.onclick = () => downloadImage(canvas, title);
+            preview.appendChild(downloadBtn);
+        }
+
+        function downloadImage(canvas, title) {
+            const link = document.createElement('a');
+            const filename = title.replace(/[^a-zA-Z0-9가-힣]/g, '-').toLowerCase();
+            link.download = `${filename}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // 페이지 로드 시 기본 이미지 생성
+        window.onload = () => generateImage();
+    </script>
+</body>
+</html>
+

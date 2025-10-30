@@ -1,0 +1,93 @@
+# 공연 추천 블로그 프로젝트 규칙
+
+## 프로젝트 개요
+- 뮤지컬, 연극 등 공연에 대한 소개 및 추천 블로그
+- GitHub Pages를 이용한 정적 웹사이트
+- 마크다운 기반 콘텐츠 관리 시스템
+
+## 디렉토리 구조
+```
+/
+├── index.html              # 메인 페이지
+├── css/                    # 스타일시트
+│   └── style.css
+├── js/                     # JavaScript 파일
+│   └── main.js
+├── posts/                  # 개별 공연 소개글 (마크다운)
+│   └── YYYY-MM-DD-title.md
+├── collections/            # 취합 글 (마크다운)
+│   └── YYYY-MM-DD-title.md
+├── images/                 # 이미지 파일
+│   ├── posts/             # 공연 포스터 등
+│   └── collections/       # 취합글 이미지
+└── data/                   # 메타데이터
+    └── posts.json         # 포스트 메타정보
+```
+
+## 콘텐츠 작성 규칙
+
+### 개별 공연 소개글 (posts/)
+- 파일명: `YYYY-MM-DD-공연제목.md`
+- 필수 메타데이터 (YAML Front Matter):
+  ```yaml
+  ---
+  title: "공연 제목"
+  date: YYYY-MM-DD
+  category: "뮤지컬|연극|콘서트|기타"
+  image: "/images/posts/파일명.jpg"
+  venue: "공연장"
+  period: "공연 기간"
+  excerpt: "짧은 소개 (2-3줄)"
+  tags: ["태그1", "태그2"]
+  ---
+  ```
+
+### 취합글 (collections/)
+- 파일명: `YYYY-MM-DD-주제.md`
+- 필수 메타데이터:
+  ```yaml
+  ---
+  title: "취합글 제목"
+  date: YYYY-MM-DD
+  type: "collection"
+  image: "/images/collections/파일명.jpg"
+  excerpt: "짧은 소개"
+  related_posts: ["post-id-1", "post-id-2"]
+  ---
+  ```
+
+## 코딩 스타일
+- HTML: 시맨틱 태그 사용
+- CSS: 모바일 퍼스트, Flexbox/Grid 레이아웃
+- JavaScript: ES6+ 문법, 모듈화
+- 반응형 디자인 필수
+
+## 색상 팔레트
+- Primary: #FF4757 (빨간색 계열)
+- Secondary: #2F3542 (다크 그레이)
+- Background: #FFFFFF
+- Text: #2F3542
+- Light Gray: #F1F2F6
+
+## 주요 기능
+1. 메인 페이지: 최신 공연 소개 + 추천 아티클 그리드
+2. 카테고리 필터링
+3. 검색 기능
+4. 반응형 레이아웃
+5. 소셜 미디어 공유 버튼
+
+## 개발 워크플로우
+1. 새 공연 추천글 작성 시:
+   - `posts/` 폴더에 마크다운 파일 생성
+   - 이미지를 `images/posts/`에 추가
+   - `data/posts.json` 업데이트 (자동화 스크립트 사용)
+   
+2. 취합글 작성 시:
+   - `collections/` 폴더에 마크다운 파일 생성
+   - 관련 포스트 ID 연결
+
+## GitHub Pages 설정
+- 브랜치: main
+- 소스: / (root)
+- 커스텀 도메인: 선택사항
+

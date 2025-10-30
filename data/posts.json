@@ -1,0 +1,141 @@
+{
+  "posts": [
+    {
+      "id": "post-001",
+      "title": "오페라의 유령 - 영원한 클래식",
+      "date": "2025-10-28",
+      "category": "뮤지컬",
+      "image": "/images/posts/phantom.jpg",
+      "venue": "샬롯데씨어터",
+      "period": "2025.11.01 - 2026.01.31",
+      "excerpt": "앤드류 로이드 웨버의 불멸의 명작, 오페라의 유령이 다시 돌아왔습니다.",
+      "tags": ["뮤지컬", "클래식", "로맨스"],
+      "featured": true,
+      "content": "posts/2025-10-28-오페라의유령.md"
+    },
+    {
+      "id": "post-002",
+      "title": "시카고 - 재즈와 범죄의 향연",
+      "date": "2025-10-25",
+      "category": "뮤지컬",
+      "image": "/images/posts/chicago.jpg",
+      "venue": "디큐브아트센터",
+      "period": "2025.11.15 - 2026.02.28",
+      "excerpt": "1920년대 시카고를 배경으로 한 화려한 재즈 뮤지컬",
+      "tags": ["뮤지컬", "재즈", "범죄"],
+      "featured": true,
+      "content": "posts/2025-10-25-시카고.md"
+    },
+    {
+      "id": "post-003",
+      "title": "햄릿 - 현대적 재해석",
+      "date": "2025-10-22",
+      "category": "연극",
+      "image": "/images/posts/hamlet.jpg",
+      "venue": "대학로 예술마당",
+      "period": "2025.11.05 - 2025.12.20",
+      "excerpt": "셰익스피어의 고전을 현대적 감각으로 재해석한 작품",
+      "tags": ["연극", "고전", "현대극"],
+      "featured": false,
+      "content": "posts/2025-10-22-햄릿.md"
+    },
+    {
+      "id": "post-004",
+      "title": "겨울왕국 - 가족 뮤지컬",
+      "date": "2025-10-20",
+      "category": "뮤지컬",
+      "image": "/images/posts/frozen.jpg",
+      "venue": "블루스퀘어",
+      "period": "2025.12.01 - 2026.02.28",
+      "excerpt": "온 가족이 함께 즐길 수 있는 디즈니의 감동",
+      "tags": ["뮤지컬", "가족", "디즈니"],
+      "featured": false,
+      "content": "posts/2025-10-20-겨울왕국.md"
+    },
+    {
+      "id": "post-005",
+      "title": "라흐마니노프 피아노 협주곡",
+      "date": "2025-10-18",
+      "category": "콘서트",
+      "image": "/images/posts/rachmaninoff.jpg",
+      "venue": "예술의전당 콘서트홀",
+      "period": "2025.11.10",
+      "excerpt": "세계적인 피아니스트가 선사하는 라흐마니노프의 감동",
+      "tags": ["클래식", "콘서트", "피아노"],
+      "featured": false,
+      "content": "posts/2025-10-18-라흐마니노프.md"
+    },
+    {
+      "id": "post-006",
+      "title": "웃음의 대학 - 코미디 연극",
+      "date": "2025-10-15",
+      "category": "연극",
+      "image": "/images/posts/comedy.jpg",
+      "venue": "대학로 TOM",
+      "period": "2025.11.01 - 2026.01.31",
+      "excerpt": "스트레스를 날려버릴 유쾌한 코미디 연극",
+      "tags": ["연극", "코미디", "힐링"],
+      "featured": false,
+      "content": "posts/2025-10-15-웃음의대학.md"
+    },
+    {
+      "id": "post-007",
+      "title": "레미제라블 - 감동의 대서사시",
+      "date": "2025-10-12",
+      "category": "뮤지컬",
+      "image": "/images/posts/lesmis.jpg",
+      "venue": "LG아트센터",
+      "period": "2025.11.20 - 2026.03.31",
+      "excerpt": "빅토르 위고의 명작을 무대 위에 재현한 불멸의 뮤지컬",
+      "tags": ["뮤지컬", "클래식", "감동"],
+      "featured": false,
+      "content": "posts/2025-10-12-레미제라블.md"
+    },
+    {
+      "id": "post-008",
+      "title": "사랑의 불시착 - 연극 버전",
+      "date": "2025-10-08",
+      "category": "연극",
+      "image": "/images/posts/crashlanding.jpg",
+      "venue": "충무아트센터",
+      "period": "2025.11.15 - 2026.01.15",
+      "excerpt": "인기 드라마를 무대 위로 옮긴 로맨틱 코미디",
+      "tags": ["연극", "로맨스", "코미디"],
+      "featured": false,
+      "content": "posts/2025-10-08-사랑의불시착.md"
+    }
+  ],
+  "collections": [
+    {
+      "id": "collection-001",
+      "title": "2025 연말 추천 공연 베스트 10",
+      "date": "2025-10-30",
+      "type": "collection",
+      "image": "/images/collections/yearend-2025.jpg",
+      "excerpt": "올해를 마무리하며 꼭 봐야 할 최고의 공연들을 엄선했습니다.",
+      "related_posts": ["post-001", "post-002", "post-007"],
+      "content": "collections/2025-10-30-연말추천공연.md"
+    },
+    {
+      "id": "collection-002",
+      "title": "대학로 데이트 추천 공연 TOP 5",
+      "date": "2025-10-27",
+      "type": "collection",
+      "image": "/images/collections/daehakro-date.jpg",
+      "excerpt": "연인과 함께 보기 좋은 대학로 공연을 소개합니다.",
+      "related_posts": ["post-003", "post-006", "post-008"],
+      "content": "collections/2025-10-27-대학로데이트.md"
+    },
+    {
+      "id": "collection-003",
+      "title": "가족과 함께하는 11월 공연",
+      "date": "2025-10-24",
+      "type": "collection",
+      "image": "/images/collections/family-shows.jpg",
+      "excerpt": "온 가족이 함께 즐길 수 있는 공연을 모았습니다.",
+      "related_posts": ["post-004"],
+      "content": "collections/2025-10-24-가족공연.md"
+    }
+  ]
+}
+
