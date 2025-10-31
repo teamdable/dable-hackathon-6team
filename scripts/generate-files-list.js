@@ -88,7 +88,7 @@ function generateFilesList() {
 
 // 스크립트 실행
 if (require.main === module) {
-    console.log('📋 PerformancePulse - 파일 목록 자동 생성기\n');
+    console.log('📋 StageX - 파일 목록 자동 생성기\n');
     console.log('=' .repeat(50) + '\n');
     generateFilesList();
     console.log('\n' + '='.repeat(50));

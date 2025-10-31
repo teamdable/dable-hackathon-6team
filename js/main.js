@@ -1,4 +1,4 @@
-// PerformancePulse - Main JavaScript
+// StageX - Main JavaScript
 
 // 포스트 데이터 로드 및 렌더링
 class PerformanceBlog {

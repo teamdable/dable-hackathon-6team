@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# PerformancePulse - Content Generation Script
+# StageX - Content Generation Script
 # This script generates posts and collections from CSV data
 
-echo "🎭 PerformancePulse Content Generator"
+echo "🎭 StageX Content Generator"
 echo "======================================"
 echo ""
 

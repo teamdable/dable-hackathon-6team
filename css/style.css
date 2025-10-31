@@ -67,6 +67,9 @@ a {
 
 .logo-icon {
     font-size: 24px;
+    height: 24px;
+    width: auto;
+    object-fit: contain;
 }
 
 .nav {
@@ -297,6 +300,19 @@ a {
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
     margin-bottom: 32px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.footer-logo-icon {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
 }
 
 .footer-title {

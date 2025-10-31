@@ -234,7 +234,7 @@ images/collections/
 ---
 
 **만든 날짜**: 2025년 10월 30일  
-**프로젝트 이름**: PerformancePulse  
+**프로젝트 이름**: StageX  
 **목적**: 공연 추천 블로그  
 **호스팅**: GitHub Pages  
 

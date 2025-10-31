@@ -182,7 +182,7 @@ class PostDetail {
         }
 
         // 페이지 제목 업데이트
-        document.title = `${title} - PerformancePulse`;
+        document.title = `${title} - StageX`;
     }
 
     // 마크다운 컨텐츠 로드 및 렌더링

@@ -1,6 +1,6 @@
 # GitHub Pages 배포 가이드
 
-이 문서는 PerformancePulse 프로젝트를 GitHub Pages에 배포하는 방법을 설명합니다.
+이 문서는 StageX 프로젝트를 GitHub Pages에 배포하는 방법을 설명합니다.
 
 ## 사전 준비
 
